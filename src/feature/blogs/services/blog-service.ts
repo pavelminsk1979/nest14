@@ -4,14 +4,11 @@ import { Model } from 'mongoose';
 import { Blog, BlogDocument } from '../domains/domain-blog';
 import { CreateBlogDto } from '../dto/create-blog-dto';
 import { BlogRepository } from '../repositories/blog-repository';
-import {
-  CreateBlogInputModel,
-  CreatePostForBlogInputModel,
-  UpdateBlogInputModel,
-} from '../types/models';
 import { Post, PostDocument } from '../../posts/domains/domain-post';
 import { CreatePostDto } from '../../posts/dto/create-post-dto';
 import { PostRepository } from '../../posts/repositories/post-repository';
+import { CreateBlogInputModel } from '../api/pipes/create-blog-input-model';
+import { CreatePostForBlogInputModel } from '../api/pipes/create-post-for-blog-input-model';
 
 @Injectable()
 export class BlogService {
@@ -44,7 +41,7 @@ export class BlogService {
 
   async updateBlog(
     bologId: string,
-    updateBlogInputModel: UpdateBlogInputModel,
+    updateBlogInputModel: CreateBlogInputModel,
   ) {
     return this.blogRepository.updateBlog(bologId, updateBlogInputModel);
   }

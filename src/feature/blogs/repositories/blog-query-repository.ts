@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { isValidObjectId, Model, Types } from 'mongoose';
 import { Blog, BlogDocument } from '../domains/domain-blog';
 import { BlogViewDto } from '../dto/create-blog-view-dto';
-import { BlogQueryParams } from '../types/models';
-import { ViewArrayBlog, ViewBlog } from '../types/views';
+import { BlogQueryParams } from '../api/types/models';
+import { ViewArrayBlog, ViewBlog } from '../api/types/views';
 
 @Injectable()
 export class BlogQueryRepository {
@@ -63,9 +63,12 @@ export class BlogQueryRepository {
     return viewBlogs;
   }
 
-  async getBlogById(bologId: string) {
+  async getBlogById(blogId: string) {
+    if (!isValidObjectId(blogId)) {
+      return null;
+    }
     const blog = await this.blogModel.findOne({
-      _id: new Types.ObjectId(bologId),
+      _id: new Types.ObjectId(blogId),
     });
 
     if (blog) {

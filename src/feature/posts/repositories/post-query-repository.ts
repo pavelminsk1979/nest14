@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Post, PostDocument } from '../domains/domain-post';
 import { PostViewDto } from '../dto/create-post-view-dto';
 import { ViewArrayPosts, ViewPost } from '../types/views';
-import { QueryParamsPostForBlog } from '../../blogs/types/models';
+import { QueryParamsPostForBlog } from '../../blogs/api/types/models';
 
 @Injectable()
 export class PostQueryRepository {

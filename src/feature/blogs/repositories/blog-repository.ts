@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Blog, BlogDocument } from '../domains/domain-blog';
-import { Model, Types } from 'mongoose';
+import { isValidObjectId, Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { UpdateBlogInputModel } from '../types/models';
+import { CreateBlogInputModel } from '../api/pipes/create-blog-input-model';
 
 @Injectable()
 export class BlogRepository {
@@ -13,6 +13,9 @@ export class BlogRepository {
   }
 
   async deleteBlogById(blogId: string) {
+    if (!isValidObjectId(blogId)) {
+      return null;
+    }
     const result = await this.blogModel.deleteOne({
       _id: new Types.ObjectId(blogId),
     });
@@ -20,15 +23,16 @@ export class BlogRepository {
     return !!result.deletedCount;
   }
 
-  async updateBlog(
-    bologId: string,
-    updateBlogInputModel: UpdateBlogInputModel,
-  ) {
+  async updateBlog(blogId: string, updateBlogInputModel: CreateBlogInputModel) {
+    if (!isValidObjectId(blogId)) {
+      return null;
+    }
+
     const { name, websiteUrl, description } = updateBlogInputModel;
 
     const result = await this.blogModel.updateOne(
       {
-        _id: new Types.ObjectId(bologId),
+        _id: new Types.ObjectId(blogId),
       },
 
       {
@@ -44,6 +48,9 @@ export class BlogRepository {
   }
 
   async findBlog(blogId: string): Promise<BlogDocument | null> {
+    if (!isValidObjectId(blogId)) {
+      return null;
+    }
     /*этот метод автоматом преобразует id в обект*/
     return this.blogModel.findById(blogId);
   }

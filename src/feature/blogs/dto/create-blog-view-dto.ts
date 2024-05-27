@@ -1,5 +1,5 @@
 import { BlogDocument } from '../domains/domain-blog';
-import { ViewBlog } from '../types/views';
+import { ViewBlog } from '../api/types/views';
 
 export class BlogViewDto {
   static getViewModel(blog: BlogDocument): ViewBlog {
