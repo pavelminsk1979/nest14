@@ -95,7 +95,7 @@ export class BlogController {
     }
   }
 
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Post(':blogId/posts')
   async createPostFortBlog(
     @Param('blogId') blogId: string,

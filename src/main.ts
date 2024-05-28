@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { applyAppSettings } from './settings/apply-app-settings';
 
 /* вход в приложение
 тут происходит настройка и запуск приложения
@@ -18,9 +18,13 @@ async function bootstrap() {
       предоставляет статические методы для создания экземпляра
       приложения*/
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
-  //ДЛЯ СОЗДАНИЯ ГЛОБАЛЬНОГО ПАЙПА
-  app.useGlobalPipes(new ValidationPipe());
+
+  /*  эта функция в файле   src/settings/apply-app-settings.ts
+  и там содержиться код который был ранее в этом
+  файле --- ЭТО ПЕРЕНОС КОДА В ДР ФАЙЛ*/
+  applyAppSettings(app);
+  ///////////////////////////////////////
+
   /*  После создания экземпляра приложения, вызывается метод listen(),
  который запускает ваше приложение на указанном порту.
  В данном случае, приложение будет слушать порт 3000.*/
