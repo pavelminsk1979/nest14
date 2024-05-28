@@ -1,5 +1,5 @@
 import { PostDocument } from '../domains/domain-post';
-import { StatusLike, ViewPost } from '../types/views';
+import { StatusLike, ViewPost } from '../api/types/views';
 
 export class PostViewDto {
   static getViewModel(post: PostDocument): ViewPost {

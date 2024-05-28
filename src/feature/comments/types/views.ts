@@ -1,4 +1,4 @@
-import { ViewPost } from '../../posts/types/views';
+import { ViewPost } from '../../posts/api/types/views';
 
 export enum StatusLike {
   None = 'None',

@@ -11,17 +11,15 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import {
-  CreatePostInputModel,
-  QueryParamsPost,
-  UpdatePostInputModel,
-} from '../types/models';
+import { QueryParamsPost } from './types/models';
 import { PostService } from '../services/post-service';
 import { PostQueryRepository } from '../repositories/post-query-repository';
-import { ViewArrayPosts, ViewPost } from '../types/views';
+import { ViewArrayPosts, ViewPost } from './types/views';
 import { QueryCommentsForPost } from '../../comments/types/models';
 import { CommentQueryRepository } from '../../comments/reposetories/comment-query-repository';
 import { ViewArrayComments } from '../../comments/types/views';
+import { CreatePostInputModel } from './pipes/create-post-input-model';
+import { UpdatePostInputModel } from './pipes/update-post-input-model';
 
 @Controller('posts')
 export class PostsController {

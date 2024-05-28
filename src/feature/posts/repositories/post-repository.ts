@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Post, PostDocument } from '../domains/domain-post';
-import { UpdatePostInputModel } from '../types/models';
 import { Model, Types, UpdateWriteOpResult } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { UpdatePostInputModel } from '../api/pipes/update-post-input-model';
 
 @Injectable()
 export class PostRepository {

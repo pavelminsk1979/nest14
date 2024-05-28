@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post, PostDocument } from '../domains/domain-post';
 import { PostViewDto } from '../dto/create-post-view-dto';
-import { ViewArrayPosts, ViewPost } from '../types/views';
+import { ViewArrayPosts, ViewPost } from '../api/types/views';
 import { QueryParamsPostForBlog } from '../../blogs/api/types/models';
 
 @Injectable()

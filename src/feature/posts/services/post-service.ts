@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePostInputModel, UpdatePostInputModel } from '../types/models';
 import { BlogDocument } from '../../blogs/domains/domain-blog';
 import { BlogRepository } from '../../blogs/repositories/blog-repository';
 import { CreatePostDto } from '../dto/create-post-dto';
@@ -7,6 +6,8 @@ import { Post, PostDocument } from '../domains/domain-post';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PostRepository } from '../repositories/post-repository';
+import { CreatePostInputModel } from '../api/pipes/create-post-input-model';
+import { UpdatePostInputModel } from '../api/pipes/update-post-input-model';
 
 @Injectable()
 export class PostService {

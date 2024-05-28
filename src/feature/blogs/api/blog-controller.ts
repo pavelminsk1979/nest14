@@ -16,7 +16,7 @@ import { BlogQueryRepository } from '../repositories/blog-query-repository';
 import { BlogQueryParams, QueryParamsPostForBlog } from './types/models';
 import { ViewBlog } from './types/views';
 import { PostQueryRepository } from '../../posts/repositories/post-query-repository';
-import { ViewArrayPosts, ViewPost } from '../../posts/types/views';
+import { ViewArrayPosts, ViewPost } from '../../posts/api/types/views';
 import { CreateBlogInputModel } from './pipes/create-blog-input-model';
 import { CreatePostForBlogInputModel } from './pipes/create-post-for-blog-input-model';
 
