@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -9,11 +10,15 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from '../services/user-service';
 import { UserQueryRepository } from '../repositories/user-query-repository';
-import { CreateUserInputModel, UserQueryParams } from '../types/models';
+import { UserQueryParams } from './types/models';
+import { CreateUserInputModel } from './pipes/create-user-input-model';
+import { AuthGuard } from '../../../common/guard/auth-guard';
 
+@UseGuards(AuthGuard)
 @Controller('users')
 /* @Controller()-- декоратор,
  который применяется к классу , указывает,
@@ -44,14 +49,25 @@ export class UsersController {
   в постмане когда запрос отправляю это обьект с
   данными*/
   async createUser(@Body() createUserInputModel: CreateUserInputModel) {
-    const id: string = await this.usersService.createUser(createUserInputModel);
+    const result: { field: string; res: string } =
+      await this.usersService.createUser(createUserInputModel);
+    debugger;
+    if (result.res === 'false') {
+      throw new BadRequestException([
+        {
+          message: `field ${result.field} must be unique`,
+          field: `${result.field}`,
+        },
+      ]);
+    }
+    if (result.field === 'id') {
+      const user = await this.userQueryRepository.getUserById(result.res);
 
-    const user = await this.userQueryRepository.getUserById(id);
-
-    if (user) {
-      return user;
-    } else {
-      throw new NotFoundException('user not found:andpoint-post,url-users');
+      if (user) {
+        return user;
+      } else {
+        throw new NotFoundException('user not found:andpoint-post,url-users');
+      }
     }
   }
 

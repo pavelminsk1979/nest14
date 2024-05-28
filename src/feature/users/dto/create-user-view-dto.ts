@@ -1,5 +1,5 @@
 import { UserDocument } from '../domains/domain-user';
-import { ViewUser } from '../types/views';
+import { ViewUser } from '../api/types/views';
 
 export class UserViewDto {
   static getViewModel(user: UserDocument): ViewUser {

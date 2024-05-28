@@ -4,8 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../domains/domain-user';
 import { UsersRepository } from '../repositories/user-repository';
 import { Types } from 'mongoose';
-import { CreateUserInputModel } from '../types/models';
 import { CreateUserDto } from '../dto/create-user-dto';
+import { CreateUserInputModel } from '../api/pipes/create-user-input-model';
 
 @Injectable()
 /*@Injectable()-декоратор что данный клас инжектируемый
@@ -27,12 +27,27 @@ export class UsersService {
   ) {}
 
   async createUser(createUserInputModel: CreateUserInputModel) {
-    const passwordHash = createUserInputModel.password;
+    const { login, password, email } = createUserInputModel;
+
+    /*   login и email  должны быть уникальные--поискать
+       их в базе и если такие есть в базе то вернуть
+       на фронт ошибку */
+    debugger;
+    const isExistLogin = await this.usersRepository.isExistLogin(login);
+    if (isExistLogin) {
+      return { field: 'login', res: 'false' };
+    }
+    const isExistEmail = await this.usersRepository.isExistEmail(email);
+    if (isExistEmail) {
+      return { field: 'email', res: 'false' };
+    }
+
+    const passwordHash = password;
 
     const dtoUser: CreateUserDto = new CreateUserDto(
-      createUserInputModel.login,
+      login,
       passwordHash,
-      createUserInputModel.email,
+      email,
     );
 
     /*    тут создаю нового юзера---использую МОДЕЛЬКУ ЮЗЕРА(это
@@ -50,8 +65,7 @@ export class UsersService {
     типизировать после обращения к базе данных*/
 
     const user: UserDocument = await this.usersRepository.save(newUser);
-
-    return user._id.toString();
+    return { field: 'id', res: user._id.toString() };
   }
 
   async deleteUserById(userId: string) {

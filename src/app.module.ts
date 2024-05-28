@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersController } from './feature/users/api/user-controller';
 import { UsersService } from './feature/users/services/user-service';
@@ -61,7 +59,6 @@ dotenv.config();
   ],
   /*все контроллеры приложения должны тут добавлены */
   controllers: [
-    AppController,
     UsersController,
     BlogController,
     PostsController,
@@ -70,7 +67,6 @@ dotenv.config();
   ],
   /* все сервисы приложения должны тут добавлены */
   providers: [
-    AppService,
     UsersService,
     UsersRepository,
     UserQueryRepository,

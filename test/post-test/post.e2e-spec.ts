@@ -128,7 +128,7 @@ describe('tests for andpoint posts', () => {
 
   it('get comments for correct post ', async () => {
     const { idPost1 } = expect.getState();
-    const res = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .get(`/posts/${idPost1}/comments`)
 
       .expect(200);
