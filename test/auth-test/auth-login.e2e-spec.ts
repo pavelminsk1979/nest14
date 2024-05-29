@@ -33,7 +33,9 @@ describe('tests for andpoint auth/login', () => {
 
     const password1 = 'password1';
 
-    await userManagerForTest.createUser(login1, password1, 'email@ema.com');
+    const email1 = 'email1@ema.com';
+
+    await userManagerForTest.createUser(login1, password1, email1);
 
     const res = await request(app.getHttpServer())
       .post('/auth/login')
@@ -46,5 +48,51 @@ describe('tests for andpoint auth/login', () => {
     //console.log(res.body);
 
     expect(res.body).toHaveProperty('accessToken');
+  });
+
+  it('No login  user...incorrect loginOrEmail...pipe check', async () => {
+    const userManagerForTest = new UserManagerForTest(app);
+
+    const login2 = 'login2';
+
+    const password2 = 'password2';
+
+    const email2 = 'email2@ema.com';
+
+    await userManagerForTest.createUser(login2, password2, email2);
+
+    await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        loginOrEmail: '',
+        password: password2,
+      })
+      .expect(400);
+
+    //console.log(res.body);
+  });
+
+  it('No login  user...incorrect loginOrEmail...pipe check', async () => {
+    const userManagerForTest = new UserManagerForTest(app);
+
+    const login3 = 'login3';
+
+    const password3 = 'password3';
+
+    const incorrect = 'passwo333';
+
+    const email3 = 'email3@ema.com';
+
+    await userManagerForTest.createUser(login3, password3, email3);
+
+    await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        loginOrEmail: login3,
+        password: incorrect,
+      })
+      .expect(401);
+
+    //console.log(res.body);
   });
 });
