@@ -24,7 +24,6 @@ export class UsersRepository {
   }
 
   async isExistLogin(login: string): Promise<boolean> {
-    debugger;
     const result = await this.userModel.findOne({ login });
     return !!result;
   }

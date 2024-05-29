@@ -23,6 +23,7 @@ import {
 import { CommentController } from './feature/comments/api/comment-controller';
 import { TestController } from './feature/test/test-controller';
 import dotenv from 'dotenv';
+import { HashPasswordService } from './common/service/hash-password-service';
 
 dotenv.config();
 
@@ -77,6 +78,7 @@ dotenv.config();
     PostQueryRepository,
     PostService,
     CommentQueryRepository,
+    HashPasswordService,
   ],
 })
 /*export class AppModule {} в данном контексте

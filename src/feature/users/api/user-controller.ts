@@ -60,6 +60,7 @@ export class UsersController {
         },
       ]);
     }
+    debugger;
     if (result.field === 'id') {
       const user = await this.userQueryRepository.getUserById(result.res);
 

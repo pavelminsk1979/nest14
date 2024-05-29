@@ -4,8 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../domains/domain-user';
 import { UsersRepository } from '../repositories/user-repository';
 import { Types } from 'mongoose';
-import { CreateUserDto } from '../dto/create-user-dto';
 import { CreateUserInputModel } from '../api/pipes/create-user-input-model';
+import { HashPasswordService } from '../../../common/service/hash-password-service';
 
 @Injectable()
 /*@Injectable()-декоратор что данный клас инжектируемый
@@ -24,6 +24,7 @@ export class UsersService {
        это будет ТОЖЕ КЛАСС(это Моделька от mongoose).*/
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     protected usersRepository: UsersRepository,
+    protected hashPasswordService: HashPasswordService,
   ) {}
 
   async createUser(createUserInputModel: CreateUserInputModel) {
@@ -32,7 +33,7 @@ export class UsersService {
     /*   login и email  должны быть уникальные--поискать
        их в базе и если такие есть в базе то вернуть
        на фронт ошибку */
-    debugger;
+
     const isExistLogin = await this.usersRepository.isExistLogin(login);
     if (isExistLogin) {
       return { field: 'login', res: 'false' };
@@ -41,21 +42,18 @@ export class UsersService {
     if (isExistEmail) {
       return { field: 'email', res: 'false' };
     }
-
-    const passwordHash = password;
-
-    const dtoUser: CreateUserDto = new CreateUserDto(
-      login,
-      passwordHash,
-      email,
-    );
-
+    const passwordHash = await this.hashPasswordService.generateHash(password);
     /*    тут создаю нового юзера---использую МОДЕЛЬКУ ЮЗЕРА(это
-        класс и при создании классу передаю данные в dto (это
+        класс и при создании классу передаю данные  (это
         обьект с значениями которые нужны (согластно 
          СВАГЕРА) для зоздания нового юзера )) КЛАСС-МОДЕЛЬКА  ЭТО ЗАВИСИМОСТЬ -ПОЭТОМУ В НУТРИ МЕТОДА
          ОБРАЩЕНИЕ ИДЕТ ЧЕРЕЗ  this*/
-    const newUser: UserDocument = new this.userModel(dtoUser);
+    const newUser: UserDocument = new this.userModel({
+      login,
+      passwordHash,
+      email,
+      createdAt: new Date().toISOString(),
+    });
 
     /*типизация умного экземпляра будет
     export type UserDocument = HydratedDocument<User>;
