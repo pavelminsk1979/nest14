@@ -48,13 +48,13 @@ describe('tests for andpoint blogs', () => {
   it('create 2   blogs', async () => {
     const blogManagerForTest = new BlogManagerForTest(app);
 
-    const blog1 = await blogManagerForTest.createUser(
+    const blog1 = await blogManagerForTest.createBlog(
       'name1',
       'description1',
       'https://www.outue1.com/',
     );
 
-    const blog2 = await blogManagerForTest.createUser(
+    const blog2 = await blogManagerForTest.createBlog(
       'name1',
       'description1',
       'https://www.outue1.com/',

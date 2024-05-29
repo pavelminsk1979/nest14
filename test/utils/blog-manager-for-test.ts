@@ -4,7 +4,7 @@ import request from 'supertest';
 export class BlogManagerForTest {
   constructor(protected readonly app: INestApplication) {}
 
-  async createUser(name: string, description: string, websiteUrl: string) {
+  async createBlog(name: string, description: string, websiteUrl: string) {
     const blog = await request(this.app.getHttpServer())
       .post('/blogs')
       .send({
