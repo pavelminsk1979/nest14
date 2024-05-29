@@ -15,6 +15,10 @@ export const applyAppSettings = (app: INestApplication) => {
   ошибок для этого поля*/
   app.useGlobalPipes(
     new ValidationPipe({
+      /*    это настройка чтоб  работал  (@Transform(({ value }: TransformFnParams) =>
+            typeof value === 'string' ? value.trim() : value,
+          ))  -- ибо нету декоратора @Trim()*/
+      transform: true,
       exceptionFactory: (errors) => {
         const errorForResponse: ErrorResponseType[] = [];
         errors.forEach((e: ValidationError) => {

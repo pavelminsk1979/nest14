@@ -32,4 +32,13 @@ export class UsersRepository {
     const result = await this.userModel.findOne({ email });
     return !!result;
   }
+
+  async findUserByLoginOrEmail(
+    loginOrEmail: string,
+  ): Promise<UserDocument | null> {
+    const user: UserDocument | null = await this.userModel.findOne({
+      $or: [{ login: loginOrEmail }, { email: loginOrEmail }],
+    });
+    return user;
+  }
 }

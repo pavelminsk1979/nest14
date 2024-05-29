@@ -25,6 +25,14 @@ await hashPasswordService.generateHash('myPassword', mySalt);*/
   }
 
   async checkPassword(password: string, hash: string) {
+    /*
+    -- ЛОГИНИЗАЦИЯ  БУДЕТ УСПЕШНОЙ-андпоинт auth/login
+    и вернется фронту accessToken
+   -- метод  compare примет пароль и хэшСсолью
+      хэшСсоль-будет в базе данных
+      метод  compare проверит ---на основе ЭТОГО ЛИ пароля
+      был создан хэшСсолью  и вернет труе*/
+
     return bcrypt.compare(password, hash);
   }
 }

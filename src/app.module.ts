@@ -24,6 +24,9 @@ import { CommentController } from './feature/comments/api/comment-controller';
 import { TestController } from './feature/test/test-controller';
 import dotenv from 'dotenv';
 import { HashPasswordService } from './common/service/hash-password-service';
+import { AuthController } from './feature/auth/api/auth-controller';
+import { AuthService } from './feature/auth/services/auth-service';
+import { TokenJwtService } from './common/service/token-jwt-service';
 
 dotenv.config();
 
@@ -65,6 +68,7 @@ dotenv.config();
     PostsController,
     CommentController,
     TestController,
+    AuthController,
   ],
   /* все сервисы приложения должны тут добавлены */
   providers: [
@@ -79,6 +83,8 @@ dotenv.config();
     PostService,
     CommentQueryRepository,
     HashPasswordService,
+    AuthService,
+    TokenJwtService,
   ],
 })
 /*export class AppModule {} в данном контексте

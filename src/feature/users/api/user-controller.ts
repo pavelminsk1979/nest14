@@ -40,18 +40,28 @@ export class UsersController {
   /*@HttpCode(HttpStatus.OK)-чтобы статус код возвращать
     управляемо..только тут прописать
     ЕСЛИ ПО УМОЛЧАНИЮ(не прописывать такой декоратор)
-    то код успешный  200*/
+    то код успешный  взависимости от метода post/delete*/
   @HttpCode(HttpStatus.CREATED)
   @Post()
   /* ИЗ БОДИ ВОЗМУ ПРИХОДЯЩИЕ ДАННЫЕ
   @Body() createUserInputModel---имя (createUserInputModel)
   тут я сам создаю  а
   в постмане когда запрос отправляю это обьект с
-  данными*/
+  данными
+  ----приходит JSON от фронта
+--далее JSON трансформируется в класс и валидация полей
+внутри класса с помощью декораторов (ЭТО И ЕСТЬ
+ПАЙП - он и преобразователь( JSON  преобразует
+ в класс в данном случае-ЭТО В ДРУГОМ ФАЙЛЕ)
+ПАЙП  -он также валидатор-проверяет на входе
+данные от фронта ... если в пайпе чтото не
+провалидировано тогда ошибка и эту
+ошибку словит exeption filter(его надо подключить
+в main. ts)*/
   async createUser(@Body() createUserInputModel: CreateUserInputModel) {
     const result: { field: string; res: string } =
       await this.usersService.createUser(createUserInputModel);
-    debugger;
+
     if (result.res === 'false') {
       throw new BadRequestException([
         {
@@ -60,7 +70,7 @@ export class UsersController {
         },
       ]);
     }
-    debugger;
+
     if (result.field === 'id') {
       const user = await this.userQueryRepository.getUserById(result.res);
 
