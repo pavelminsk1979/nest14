@@ -121,6 +121,31 @@ export class AuthService {
   ) {
     const { code } = registrationConfirmationInputModel;
 
-    return this.usersRepository.updateFlagIsConfirmed(code);
+    const user = await this.usersRepository.findUserByCode(code);
+    if (!user) return false;
+
+    /*надо проверку даты сделать что еще не протухла*/
+
+    const expirationDate = new Date(user.expirationDate);
+
+    /*-далее получаю милисекунды даты которая в базе лежала */
+
+    const expirationDateMilSek = expirationDate.getTime();
+
+    /*далее текущую дату и также милисекунды получаю */
+
+    const currentDateMilSek = Date.now();
+
+    if (expirationDateMilSek < currentDateMilSek) {
+      return false;
+    }
+
+    user.isConfirmed = 'true';
+
+    const changeUser: UserDocument = await this.usersRepository.save(user);
+
+    if (!changeUser) return false;
+
+    return true;
   }
 }

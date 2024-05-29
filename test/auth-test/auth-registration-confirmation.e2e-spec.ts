@@ -35,7 +35,7 @@ describe('tests for andpoint auth/login', () => {
     await request(app.getHttpServer())
       .post('/auth/registration-confirmation')
       .send({
-        code: '34923dbb-9513-4508-a10b-4a0181fcbf0b',
+        code: '54dd3296-f304-412b-9c6b-a97ccb6a257d',
       })
       .expect(204);
   });

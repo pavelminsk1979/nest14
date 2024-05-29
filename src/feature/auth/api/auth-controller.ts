@@ -68,7 +68,7 @@ export class AuthController {
       return;
     } else {
       throw new NotFoundException(
-        "code confirmation isn't correct :andpoint-auth,url-auth/registration-confirmation",
+        'confirmation failed :andpoint-auth,url-auth/registration-confirmation',
       );
     }
   }

@@ -42,7 +42,11 @@ export class UsersRepository {
     return user;
   }
 
-  async updateFlagIsConfirmed(code: string) {
+  async findUserByCode(code: string) {
+    return this.userModel.findOne({ confirmationCode: code });
+  }
+
+  /*  async updateFlagIsConfirmed(code: string) {
     const result = await this.userModel.updateOne(
       { confirmationCode: code },
       {
@@ -51,5 +55,5 @@ export class UsersRepository {
     );
 
     return !!result.matchedCount;
-  }
+  }*/
 }
