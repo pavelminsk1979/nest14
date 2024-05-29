@@ -43,6 +43,15 @@ export class User {
 
   @Prop({ required: true })
   createdAt: string;
+
+  @Prop({ required: true })
+  confirmationCode: string;
+
+  @Prop({ required: true })
+  isConfirmed: string;
+
+  @Prop({ required: true })
+  expirationDate: string;
 }
 
 /*ТУТ В АРГУМЕНТ ПОМЕЩАЕТСЯ КЛАСС User  и в переменную

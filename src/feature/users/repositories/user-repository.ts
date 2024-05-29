@@ -41,4 +41,15 @@ export class UsersRepository {
     });
     return user;
   }
+
+  async updateFlagIsConfirmed(code: string) {
+    const result = await this.userModel.updateOne(
+      { confirmationCode: code },
+      {
+        $set: { isConfirmed: true },
+      },
+    );
+
+    return !!result.matchedCount;
+  }
 }

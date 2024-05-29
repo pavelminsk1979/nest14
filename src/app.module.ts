@@ -27,6 +27,7 @@ import { HashPasswordService } from './common/service/hash-password-service';
 import { AuthController } from './feature/auth/api/auth-controller';
 import { AuthService } from './feature/auth/services/auth-service';
 import { TokenJwtService } from './common/service/token-jwt-service';
+import { EmailSendService } from './common/service/email-send-service';
 
 dotenv.config();
 
@@ -85,6 +86,7 @@ dotenv.config();
     HashPasswordService,
     AuthService,
     TokenJwtService,
+    EmailSendService,
   ],
 })
 /*export class AppModule {} в данном контексте

@@ -6,6 +6,7 @@ import { UsersRepository } from '../repositories/user-repository';
 import { Types } from 'mongoose';
 import { CreateUserInputModel } from '../api/pipes/create-user-input-model';
 import { HashPasswordService } from '../../../common/service/hash-password-service';
+import { v4 as randomCode } from 'uuid';
 
 @Injectable()
 /*@Injectable()-декоратор что данный клас инжектируемый
@@ -38,10 +39,12 @@ export class UsersService {
     if (isExistLogin) {
       return { field: 'login', res: 'false' };
     }
+
     const isExistEmail = await this.usersRepository.isExistEmail(email);
     if (isExistEmail) {
       return { field: 'email', res: 'false' };
     }
+
     const passwordHash = await this.hashPasswordService.generateHash(password);
     /*    тут создаю нового юзера---использую МОДЕЛЬКУ ЮЗЕРА(это
         класс и при создании классу передаю данные  (это
@@ -53,6 +56,9 @@ export class UsersService {
       passwordHash,
       email,
       createdAt: new Date().toISOString(),
+      confirmationCode: randomCode(),
+      isConfirmed: true,
+      expirationDate: new Date().toISOString(),
     });
 
     /*типизация умного экземпляра будет
@@ -63,6 +69,7 @@ export class UsersService {
     типизировать после обращения к базе данных*/
 
     const user: UserDocument = await this.usersRepository.save(newUser);
+
     return { field: 'id', res: user._id.toString() };
   }
 
