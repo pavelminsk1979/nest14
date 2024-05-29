@@ -12,6 +12,7 @@ import { LoginInputModel } from './pipes/login-input-model';
 import { AuthService } from '../services/auth-service';
 import { RegistrationInputModel } from './pipes/registration-input-model';
 import { RegistrationConfirmationInputModel } from './pipes/registration-comfirmation-input-model';
+import { RegistrationEmailResendingInputModel } from './pipes/registration-email-resending-input-model';
 
 @Controller('auth')
 export class AuthController {
@@ -69,6 +70,26 @@ export class AuthController {
     } else {
       throw new NotFoundException(
         'confirmation failed :andpoint-auth,url-auth/registration-confirmation',
+      );
+    }
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('registration-email-resending')
+  async handleRegistrationEmailResending(
+    @Body()
+    registrationEmailResendingInputModel: RegistrationEmailResendingInputModel,
+  ) {
+    const { email } = registrationEmailResendingInputModel;
+
+    const result: boolean =
+      await this.authService.registrationEmailResending(email);
+
+    if (result) {
+      return;
+    } else {
+      throw new NotFoundException(
+        'email resending failed :andpoint-auth,url-auth/registration-email-resending',
       );
     }
   }

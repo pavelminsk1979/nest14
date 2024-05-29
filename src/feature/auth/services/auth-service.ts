@@ -148,4 +148,27 @@ export class AuthService {
 
     return true;
   }
+
+  async registrationEmailResending(email: string) {
+    const user = await this.usersRepository.findUserByEmail(email);
+
+    if (!user) return false;
+
+    if (user.isConfirmed === 'true') return false;
+
+    //новая дата протухания
+    user.expirationDate = add(new Date(), {
+      hours: 1,
+      minutes: 2,
+    }).toISOString();
+
+    //новый код подтверждения
+    user.confirmationCode = randomCode();
+
+    const changeUser: UserDocument = await this.usersRepository.save(user);
+
+    if (!changeUser) return false;
+
+    return true;
+  }
 }

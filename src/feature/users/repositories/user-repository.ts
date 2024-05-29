@@ -46,14 +46,7 @@ export class UsersRepository {
     return this.userModel.findOne({ confirmationCode: code });
   }
 
-  /*  async updateFlagIsConfirmed(code: string) {
-    const result = await this.userModel.updateOne(
-      { confirmationCode: code },
-      {
-        $set: { isConfirmed: true },
-      },
-    );
-
-    return !!result.matchedCount;
-  }*/
+  async findUserByEmail(email: string) {
+    return this.userModel.findOne({ email });
+  }
 }
