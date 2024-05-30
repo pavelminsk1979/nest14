@@ -11,7 +11,7 @@ export class TokenJwtService {
 
   constructor() {
     this.secretAccessToken = process.env.ACCESSTOKEN_SECRET || 'secret1';
-    this.expirationAccessToken = '10s';
+    this.expirationAccessToken = '5m';
   }
 
   async createAccessToken(userId: string) {
