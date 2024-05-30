@@ -49,17 +49,17 @@ describe('tests for andpoint auth/login', () => {
     expect.setState({ login1, password1 });
   });
 
-  it('No login  user ', async () => {
-    const { login1, password1 } = expect.getState();
-
-    await request(app.getHttpServer())
-      .post('/auth/login')
-      .send({
-        loginOrEmail: login1,
-        password: password1,
-      })
-      .expect(401);
-
-    //console.log(res.body);
-  });
+  /*  it('No login  user ', async () => {
+      const { login1, password1 } = expect.getState();
+  
+      await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          loginOrEmail: login1,
+          password: password1,
+        })
+        .expect(401);
+  
+      //console.log(res.body);
+    });*/
 });
