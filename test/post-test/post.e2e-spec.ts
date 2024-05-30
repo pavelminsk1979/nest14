@@ -29,7 +29,7 @@ describe('tests for andpoint posts', () => {
   it('should be mistake when create post', async () => {
     const blogManagerForTest = new BlogManagerForTest(app);
 
-    const blog3 = await blogManagerForTest.createUser(
+    const blog3 = await blogManagerForTest.createBlog(
       'name3',
       'description3',
       'https://www.outue3.com/',

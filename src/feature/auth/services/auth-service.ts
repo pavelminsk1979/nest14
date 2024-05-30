@@ -11,6 +11,7 @@ import { v4 as randomCode } from 'uuid';
 import { add } from 'date-fns';
 import { EmailSendService } from '../../../common/service/email-send-service';
 import { RegistrationConfirmationInputModel } from '../api/pipes/registration-comfirmation-input-model';
+import { NewPasswordInputModel } from '../api/pipes/new-password-input-model';
 
 @Injectable()
 export class AuthService {
@@ -213,6 +214,25 @@ export class AuthService {
           error,
       );
     }
+
+    return true;
+  }
+
+  async newPassword(newPasswordInputModel: NewPasswordInputModel) {
+    const { newPassword, recoveryCode } = newPasswordInputModel;
+    debugger;
+    const user = await this.usersRepository.findUserByCode(recoveryCode);
+
+    if (!user) return false;
+
+    const newPasswordHash =
+      await this.hashPasswordService.generateHash(newPassword);
+
+    user.passwordHash = newPasswordHash;
+
+    const changeUser: UserDocument = await this.usersRepository.save(user);
+
+    if (!changeUser) return false;
 
     return true;
   }

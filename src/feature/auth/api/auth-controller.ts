@@ -14,6 +14,7 @@ import { RegistrationInputModel } from './pipes/registration-input-model';
 import { RegistrationConfirmationInputModel } from './pipes/registration-comfirmation-input-model';
 import { RegistrationEmailResendingInputModel } from './pipes/registration-email-resending-input-model';
 import { PasswordRecoveryInputModel } from './pipes/password-recovery-input-model';
+import { NewPasswordInputModel } from './pipes/new-password-input-model';
 
 @Controller('auth')
 export class AuthController {
@@ -111,6 +112,28 @@ export class AuthController {
     } else {
       throw new NotFoundException(
         'password recovery failed :andpoint-auth,url-auth/password-recovery',
+      );
+    }
+  }
+
+  /*новый пароль... и в базу данных помещаю
+ХЭШНОВОГОПАРОЛЯ(passwordHash).  В теле запроса приходит КОД и новый пароль*/
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('new-password')
+  async handleNewPassword(
+    @Body()
+    newPasswordInputModel: NewPasswordInputModel,
+  ) {
+    debugger;
+    const result: boolean = await this.authService.newPassword(
+      newPasswordInputModel,
+    );
+
+    if (result) {
+      return;
+    } else {
+      throw new NotFoundException(
+        'new-password failed :andpoint-auth,url-auth/new-password',
       );
     }
   }
