@@ -32,13 +32,34 @@ describe('tests for andpoint auth/login', () => {
   });
 
   it('registration  user', async () => {
+    const login1 = 'login111';
+
+    const password1 = 'password1';
+
+    const email1 = 'avelminsk1979@mail.ru';
+
     await request(app.getHttpServer())
       .post('/auth/registration')
       .send({
-        login: 'login111',
-        password: 'password1',
-        email: 'avelminsk1979@mail.ru',
+        login: login1,
+        password: password1,
+        email: email1,
       })
       .expect(204);
+    expect.setState({ login1, password1 });
+  });
+
+  it('No login  user ', async () => {
+    const { login1, password1 } = expect.getState();
+
+    await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        loginOrEmail: login1,
+        password: password1,
+      })
+      .expect(401);
+
+    //console.log(res.body);
   });
 });

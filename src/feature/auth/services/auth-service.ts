@@ -30,6 +30,8 @@ export class AuthService {
 
     if (!user) return null;
 
+    if (user.isConfirmed === 'false') return null;
+
     const passwordHash = user.passwordHash;
 
     const isCorrectPassword = await this.hashPasswordService.checkPassword(
@@ -122,7 +124,10 @@ export class AuthService {
     const { code } = registrationConfirmationInputModel;
 
     const user = await this.usersRepository.findUserByCode(code);
+
     if (!user) return false;
+
+    if (user.isConfirmed === 'true') return false;
 
     /*надо проверку даты сделать что еще не протухла*/
 
