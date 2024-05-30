@@ -93,9 +93,12 @@ export class AuthController {
     if (result) {
       return;
     } else {
-      throw new NotFoundException(
-        'email resending failed :andpoint-auth,url-auth/registration-email-resending',
-      );
+      throw new BadRequestException([
+        { message: 'email already confirmed', field: 'email' },
+      ]);
+      /*     throw new NotFoundException(
+             'email resending failed :andpoint-auth,url-auth/registration-email-resending',
+           );*/
     }
   }
 
