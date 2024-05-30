@@ -156,6 +156,7 @@ export class AuthService {
   }
 
   async registrationEmailResending(email: string) {
+    debugger;
     const user = await this.usersRepository.findUserByEmail(email);
 
     if (!user) return false;
@@ -169,11 +170,33 @@ export class AuthService {
     }).toISOString();
 
     //новый код подтверждения
-    user.confirmationCode = randomCode();
+    const newCode = randomCode();
+    user.confirmationCode = newCode;
 
     const changeUser: UserDocument = await this.usersRepository.save(user);
 
     if (!changeUser) return false;
+
+    /*    в письме ссылка отбалды написана а по сценарию
+ рабочего приложения она должна перенапрвить
+     на фронт и в урле будет КОД и тогда фронт сформирует
+     запрос на подтверждение регистрации с этим кодом
+      */
+
+    const letter = `<h1>Thank for your registration Email Resending</h1>
+ <p>To finish registration please follow the link below:
+     <a href="https://somesite.com/confirm-email?code=${newCode}">complete registration</a>
+ </p>`;
+
+    /*лучше  обработать ошибку отправки письма*/
+    try {
+      await this.emailSendService.sendEmail(email, letter);
+    } catch (error) {
+      console.log(
+        'letter was not sent to email: file auth-service.ts... method registrationUser' +
+          error,
+      );
+    }
 
     return true;
   }
