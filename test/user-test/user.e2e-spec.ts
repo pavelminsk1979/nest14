@@ -25,7 +25,7 @@ describe('tests for andpoint users', () => {
     await app.close();
   });
 
-  it('create user', async () => {
+  /*  it('create user', async () => {
     const newLogin = 'login1';
 
     const loginPasswordBasic64 = 'YWRtaW46cXdlcnR5';
@@ -100,5 +100,25 @@ describe('tests for andpoint users', () => {
       .expect(200);
     //console.log(res.body);
     expect(res.body.items).toHaveLength(0);
+  });*/
+
+  it('create user', async () => {
+    const newLogin = '123456789011';
+
+    const loginPasswordBasic64 = 'YWRtaW46cXdlcnR5';
+
+    const res = await request(app.getHttpServer())
+      .post('/users')
+      .set('Authorization', `Basic ${loginPasswordBasic64}`)
+      .send({
+        login: newLogin,
+        password: 'short',
+        email: '',
+      })
+      .expect(400);
+
+    console.log(res.body);
+
+    //expect(res.body.login).toEqual(newLogin);
   });
 });

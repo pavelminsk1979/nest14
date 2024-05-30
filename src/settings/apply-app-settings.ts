@@ -19,6 +19,8 @@ export const applyAppSettings = (app: INestApplication) => {
             typeof value === 'string' ? value.trim() : value,
           ))  -- ибо нету декоратора @Trim()*/
       transform: true,
+      //выводит только одну ошибку для одного поля
+      stopAtFirstError: true,
       exceptionFactory: (errors) => {
         const errorForResponse: ErrorResponseType[] = [];
         errors.forEach((e: ValidationError) => {

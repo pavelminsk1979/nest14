@@ -18,6 +18,8 @@ export class CreateUserInputModel {
 
   @IsString()
   @IsNotEmpty()
-  @Matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
+  @Matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, {
+    message: 'Should be email',
+  })
   email: string;
 }
