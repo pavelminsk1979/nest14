@@ -176,4 +176,44 @@ export class AuthService {
 
     return true;
   }
+
+  /* Востановление пароля через подтверждение по
+   электронной почте.*/
+  async passwordRecovery(email: string) {
+    const user = await this.usersRepository.findUserByEmail(email);
+
+    if (!user) return false;
+
+    const newCode = randomCode();
+
+    const newExpirationDate = add(new Date(), {
+      hours: 1,
+      minutes: 2,
+    }).toISOString();
+
+    user.confirmationCode = newCode;
+
+    user.expirationDate = newExpirationDate;
+
+    const changeUser: UserDocument = await this.usersRepository.save(user);
+
+    if (!changeUser) return false;
+
+    const letter = `<h1>Password recovery</h1>
+ <p>To finish password recovery please follow the link below:
+     <a href="https://somesite.com/password-recovery?recoveryCode=${newCode}">recovery password</a>
+ </p>`;
+
+    /*лучше  обработать ошибку отправки письма*/
+    try {
+      await this.emailSendService.sendEmail(email, letter);
+    } catch (error) {
+      console.log(
+        'letter was not sent to email: file auth-service.ts... method passwordRecovery' +
+          error,
+      );
+    }
+
+    return true;
+  }
 }

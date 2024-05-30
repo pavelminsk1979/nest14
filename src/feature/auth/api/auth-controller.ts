@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth-service';
 import { RegistrationInputModel } from './pipes/registration-input-model';
 import { RegistrationConfirmationInputModel } from './pipes/registration-comfirmation-input-model';
 import { RegistrationEmailResendingInputModel } from './pipes/registration-email-resending-input-model';
+import { PasswordRecoveryInputModel } from './pipes/password-recovery-input-model';
 
 @Controller('auth')
 export class AuthController {
@@ -90,6 +91,26 @@ export class AuthController {
     } else {
       throw new NotFoundException(
         'email resending failed :andpoint-auth,url-auth/registration-email-resending',
+      );
+    }
+  }
+
+  /*1003 конспект- дошанка*/
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post('password-recovery')
+  async handlePasswordRecovery(
+    @Body()
+    passwordRecoveryInputModel: PasswordRecoveryInputModel,
+  ) {
+    const { email } = passwordRecoveryInputModel;
+
+    const result: boolean = await this.authService.passwordRecovery(email);
+
+    if (result) {
+      return;
+    } else {
+      throw new NotFoundException(
+        'password recovery failed :andpoint-auth,url-auth/password-recovery',
       );
     }
   }
